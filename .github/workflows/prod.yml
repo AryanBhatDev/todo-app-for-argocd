@@ -29,3 +29,17 @@ jobs:
         push: true
         tags: crazywebdev/todo-app-argocd:${{ github.sha }}
 
+    - name: Clone repo, update docker image, update tags
+      env:
+        PAT: ${{ secrets.PAT}}
+      run: |
+        git clone https://github.com/AryanBhatDev/argo-deployment.git
+      
+        sed -i 's|image: crazywebdev/todo-app-argocd:.*|image: crazywebdev/todo-app-argocd: ${{ github.sha }}|' manifest.yml
+        git config user.name "GitHub Actions Bot"
+        git config user.email "actions@github.com"
+        git add .
+        git commit -m "Update deployment server image tags to ${{ github.sha }}"
+        git push https://${PAT}@github.com/AryanBhatDev/argo-deployment.git main
+
+
