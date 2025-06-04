@@ -34,6 +34,7 @@ jobs:
         PAT: ${{ secrets.PAT}}
       run: |
         git clone https://github.com/AryanBhatDev/argo-deployment.git
+        cd argo-deployment
       
         sed -i 's|image: crazywebdev/todo-app-argocd:.*|image: crazywebdev/todo-app-argocd: ${{ github.sha }}|' manifest.yml
         git config user.name "GitHub Actions Bot"
